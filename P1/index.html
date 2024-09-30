@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pertemuan 1</title>
+
+    <style>
+        :root {
+            --bg-dark: #00143e;
+            --text-dark: #ffffff;
+            --bg-light: #f9f9f9;
+            --text-light: #333;
+            --bg-danger: #ff0000;
+            --bg-primary: #007bff;
+            --bg-aside: #102044;
+        }
+
+        body {
+            margin: 0;
+            font-family: Helvetica, sans-serif;
+        }
+
+        button {
+            font-weight: 700;
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100dvh;
+        }
+
+
+        header {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            padding: 1rem;
+            text-align: right;
+
+            button {
+                background-color: var(--bg-light);
+                border: 1px solid var(--bg-dark);
+                color: var(--text-light);
+            }
+        }
+
+        main {
+            display: flex;
+            flex: 1;
+        }
+
+        .content {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            flex: 1;
+            padding: 1rem;
+
+            .button-tambah {
+                background-color: var(--bg-dark);
+                border: 1px solid var(--bg-light);
+                color: var(--text-dark);
+                margin-bottom: .5rem;
+                transition: all;
+                transition-duration: 500ms;
+            }
+
+            .button-tambah:hover {
+                box-shadow: 4px 4px #777;
+                transform: translate(-1px, -1px);
+                border: var(--bg-dark);
+            }
+
+            .button-delete {
+                background-color: var(--bg-danger);
+                border: 1px solid var(--bg-light);
+                color: var(--text-dark);
+            }
+
+            .button-edit {
+                background-color: var(--bg-primary);
+                border: 1px solid var(--bg-light);
+                color: var(--text-dark);
+            }
+
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table,
+        tr,
+        td,
+        th {
+            border: 1px solid black;
+            padding: 0.5rem;
+            font-weight: bold;
+        }
+
+        aside {
+            background-color: var(--bg-aside);
+            color: var(--text-dark);
+            padding: 1rem;
+
+            a {
+                color: var(--text-dark);
+            }
+        }
+
+        footer {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* Modal Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            /* Modal di Hide */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            max-width: 100%;
+        }
+
+        .button-modal-wrapper {
+            margin-top: .5rem;
+        }
+
+        .delete-button-wrapper {
+            display: flex;
+            justify-content: end;
+            gap: .5rem;
+
+            button {
+                background: none;
+                border: none;
+                padding: 0;
+                color: rgb(84, 0, 219);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <button class="button-logout">Log out</button>
+        </header>
+
+        <main>
+            <aside>
+                <h1>Admin Panel</h1>
+                <nav>
+                    <ul>
+                        <li><a href="">Dashboard</a></li>
+                        <li><a href="">Mahasiswa</a></li>
+                        <li><a href="">Settings</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <div class="content">
+                <h2>Daftar Mahasiwa</h2>
+                <button class="button-tambah" onclick="addMahasiswa()">Tambah Mahasiswa</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>NIM</th>
+                            <th>Nama</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>A11.2022.14188</td>
+                            <td>Naufal</td>
+                            <td>
+                                <button class="button-edit" onclick="editMahasiswa()">Edit</button>
+                                <button class="button-delete" onclick="deleteMahasiswa()">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>A11.2022.12345</td>
+                            <td>Adrian</td>
+                            <td>
+                                <button class="button-edit" onclick="editMahasiswa()">Edit</button>
+                                <button class="button-delete">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>A11.2022.67891</td>
+                            <td>Putra</td>
+                            <td>
+                                <button class="button-edit" onclick="editMahasiswa()">Edit</button>
+                                <button class="button-delete">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        <footer>&copy; 2024 - M Naufal Adrian Pratama Putra</footer>
+    </div>
+    <!-- Modal (Hidden by default) -->
+    <div id="modal-create" class="modal-overlay">
+        <div class="modal">
+            <h2>Tambah Mahasiswa</h2>
+            <form>
+                <label for="name">Nama:</label>
+                <input type="text" id="name" name="name" style="width: 95%;">
+                <div class="button-modal-wrapper">
+                    <button type="button" onclick="closeModal()">Batal</button>
+                    <button type="submit">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-edit" class="modal-overlay">
+        <div class="modal">
+            <h2>Edit Mahasiswa</h2>
+            <form>
+                <label for="name">Nama:</label>
+                <input type="text" id="name" name="name" style="width: 95%;">
+                <div class="button-modal-wrapper">
+                    <button type="button" onclick="closeModal()">Batal</button>
+                    <button type="submit">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- delte modal -->
+    <div id="modal-delete" class="modal-overlay">
+        <form class="modal">
+            <p>Apakah anda yakin ingin menghapus mahasiswa ini?</p>
+            <hr />
+            <div class="delete-button-wrapper">
+                <button type="button" onclick="closeModal()">Batal</button>
+                <button type="button" onclick="deleteSuccess()">Hapus</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- delete success -->
+    <div id="delete-success" class="modal-overlay">
+        <form class="modal">
+            <p>Mahasiswa berhasil dihapus</p>
+            <hr />
+            <div class="delete-button-wrapper">
+                <button type="button" onclick="closeModal()">Tutup</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const modalCreate = document.getElementById('modal-create');
+        const modalEdit = document.getElementById('modal-edit');
+        const modalDelete = document.getElementById('modal-delete');
+        const modalDeleteSuccess = document.getElementById('delete-success');
+
+        function editMahasiswa() {
+            modalEdit.style.display = 'flex';
+        }
+
+        function addMahasiswa() {
+            modalCreate.style.display = 'flex';
+        }
+
+        function deleteMahasiswa() {
+            modalDelete.style.display = 'flex';
+        }
+
+        function deleteSuccess() {
+            modalDelete.style.display = 'none';
+            modalDeleteSuccess.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modalCreate.style.display = 'none';
+            modalEdit.style.display = 'none';
+            modalDelete.style.display = 'none';
+            modalDeleteSuccess.style.display = 'none';
+        }
+
+        // sembunyikan modal jika klik diluar modal
+        window.addEventListener('click', (event) => {
+            if (event.target === modalCreate) {
+                modalCreate.style.display = 'none';
+            }
+            if (event.target === modalEdit) {
+                modalEdit.style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+
+</html>

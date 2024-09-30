@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pertemuan 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    // customize here
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        /* table */
+        tr,td,th{
+            @apply border-collapse border-b border-slate-400 py-2 px-4
+        }
+        /* button customize */
+        .btn-primary{
+            @apply py-2 px-5 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-75
+        }
+        .btn-danger{
+            @apply py-2 px-5 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-400 focus:ring-opacity-75
+        }
+        .btn-warning{
+            @apply py-2 px-5 bg-yellow-500 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-700 focus:outline-none focus:ring focus:ring-yellow-400 focus:ring-opacity-75
+        }
+        .btn-success{
+            @apply py-2 px-5 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-400 focus:ring-opacity-75
+        }
+    </style>
+
+</head>
+
+<body class="bg-slate-200">
+    <div class="flex min-h-screen">
+        <aside class="bg-blue-200 p-4 space-y-4 w-60">
+            <h1 class="text-xl font-semibold">Admin Panel</h1>
+            <nav class="ml-4">
+                <ul>
+                    <li><a href="">Dashboard</a></li>
+                    <li><a href="">Mahasiswa</a></li>
+                    <li><a href="">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- content -->
+        <div class="flex flex-col flex-1 items-center">
+            <!-- header -->
+            <header class="bg-white w-full text-right p-4">
+                <div class="flex justify-end">
+                    <button type="button" class="btn-primary">
+                        Sign out
+                    </button>
+                </div>
+            </header>
+
+            <!-- main -->
+            <main class="bg-white flex-grow w-[90%] my-4 p-4 rounded-lg space-y-4 shadow-lg">
+                <div class="flex justify-between">
+                    <h2 class="text-2xl font-semibold">Daftar Mahasiwa</h2>
+                    <button class="tombol-tambah btn-success" onclick="addMahasiswa()">Tambah Mahasiswa</button>
+                </div>
+                <table class="table-auto w-full ">
+                    <thead class="text-left">
+                        <tr>
+                            <th>No.</th>
+                            <th>NIM</th>
+                            <th>Nama</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>A11.2022.14188</td>
+                            <td>Naufal</td>
+                            <td>
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="btn-warning" onclick="editMahasiswa()">Edit</button>
+                                    <button class="btn-danger" onclick="deleteMahasiswa()">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>A11.2022.12345</td>
+                            <td>Adrian</td>
+                            <td>
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="btn-warning" onclick="editMahasiswa()">Edit</button>
+                                    <button class="btn-danger" onclick="deleteMahasiswa()">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>A11.2022.67891</td>
+                            <td>Putra</td>
+                            <td>
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="btn-warning" onclick="editMahasiswa()">Edit</button>
+                                    <button class="btn-danger" onclick="deleteMahasiswa()">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </main>
+
+            <!-- footer -->
+            <footer class="py-2">&copy; 2024 - M Naufal Adrian Pratama Putra</footer>
+        </div>
+    </div>
+
+    <!-- Modal (Hidden by default) -->
+    <div id="modal-create" class="flex fixed w-full h-full bg-black/50 top-0 left-0 justify-center items-center">
+        <div class="modal">
+            <h2>Tambah Mahasiswa</h2>
+            <form>
+                <label for="name">Nama:</label>
+                <input type="text" id="name" name="name" style="width: 95%;">
+                <div class="button-modal-wrapper">
+                    <button type="button" onclick="closeModal()">Batal</button>
+                    <button type="submit">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#modal-create").hide();
+            $(".tombol-tambah").click(function () {
+                $("#modal-create").hide();
+            });
+
+            $("#show").click(function () {
+                $("p").show();
+            });
+        });
+
+    </script>
+</body>
+
+</html>
