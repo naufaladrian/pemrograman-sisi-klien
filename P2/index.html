@@ -6,15 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pertemuan 2</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    // customize here
-                }
-            }
-        }
-    </script>
     <style type="text/tailwindcss">
         /* table */
         tr,td,th{
@@ -33,6 +24,22 @@
         .btn-success{
             @apply py-2 px-5 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-400 focus:ring-opacity-75
         }
+
+        /* modal style */
+        .modal-overlay{
+            @apply  fixed w-full h-full bg-black/50 top-0 left-0 justify-center items-center
+        }
+        .modal{
+            @apply bg-white p-5 rounded-lg w-80 max-w-full
+        }
+
+        /* input */
+        input{
+            @apply border border-slate-400 rounded-lg p-2
+        }
+
+        /* button modal */
+
     </style>
 
 </head>
@@ -65,10 +72,10 @@
             <main class="bg-white flex-grow w-[90%] my-4 p-4 rounded-lg space-y-4 shadow-lg">
                 <div class="flex justify-between">
                     <h2 class="text-2xl font-semibold">Daftar Mahasiwa</h2>
-                    <button class="tombol-tambah btn-success" onclick="addMahasiswa()">Tambah Mahasiswa</button>
+                    <button class="tombol-tambah btn-success">Tambah Mahasiswa</button>
                 </div>
-                <table class="table-auto w-full ">
-                    <thead class="text-left">
+                <table class=" table-auto w-full ">
+                    <thead class=" text-left">
                         <tr>
                             <th>No.</th>
                             <th>NIM</th>
@@ -83,8 +90,8 @@
                             <td>Naufal</td>
                             <td>
                                 <div class="flex flex-wrap gap-2">
-                                    <button class="btn-warning" onclick="editMahasiswa()">Edit</button>
-                                    <button class="btn-danger" onclick="deleteMahasiswa()">Delete</button>
+                                    <button class="btn-warning tombol-edit">Edit</button>
+                                    <button class="btn-danger tombol-delete">Delete</button>
                                 </div>
                             </td>
                         </tr>
@@ -94,8 +101,8 @@
                             <td>Adrian</td>
                             <td>
                                 <div class="flex flex-wrap gap-2">
-                                    <button class="btn-warning" onclick="editMahasiswa()">Edit</button>
-                                    <button class="btn-danger" onclick="deleteMahasiswa()">Delete</button>
+                                    <button class="btn-warning tombol-edit">Edit</button>
+                                    <button class="btn-danger tombol-delete">Delete</button>
                                 </div>
                             </td>
                         </tr>
@@ -105,8 +112,8 @@
                             <td>Putra</td>
                             <td>
                                 <div class="flex flex-wrap gap-2">
-                                    <button class="btn-warning" onclick="editMahasiswa()">Edit</button>
-                                    <button class="btn-danger" onclick="deleteMahasiswa()">Delete</button>
+                                    <button class="btn-warning tombol-edit">Edit</button>
+                                    <button class="btn-danger tombol-delete">Delete</button>
                                 </div>
                             </td>
                         </tr>
@@ -120,36 +127,103 @@
     </div>
 
     <!-- Modal (Hidden by default) -->
-    <div id="modal-create" class="flex fixed w-full h-full bg-black/50 top-0 left-0 justify-center items-center">
+    <div id="modal-create" class="modal-overlay hidden">
         <div class="modal">
             <h2>Tambah Mahasiswa</h2>
             <form>
                 <label for="name">Nama:</label>
-                <input type="text" id="name" name="name" style="width: 95%;">
+                <input type="text" id="name" name="name" class="input my-2" style="width: 95%;">
                 <div class="button-modal-wrapper">
-                    <button type="button" onclick="closeModal()">Batal</button>
-                    <button type="submit">Simpan</button>
+                    <button type="button" class="tombol-close btn-danger">Batal</button>
+                    <button type="button" class="tombol-simpan ml-2 btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <div id="modal-edit" class="modal-overlay hidden">
+        <div class="modal">
+            <h2>Edit Mahasiswa</h2>
+            <form>
+                <label for="name">Nama:</label>
+                <input type="text" id="name" name="name" class="input my-2" style="width: 95%;">
+                <div class="button-modal-wrapper">
+                    <button type="button" class="tombol-close btn-danger">Batal</button>
+                    <button type="button" class="tombol-simpan ml-2 btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        $(document).ready(function () {
-            $("#modal-create").hide();
-            $(".tombol-tambah").click(function () {
-                $("#modal-create").hide();
-            });
+        var modalAdd = $("#modal-create");
+        var modalEdit = $("#modal-edit");
+        var modalDelete = $("#modal-delete");
 
-            $("#show").click(function () {
-                $("p").show();
+
+        $(".tombol-tambah").on("click", function (event) {
+            modalAdd.removeClass("hidden");
+            modalAdd.addClass("flex");
+        });
+
+        $(".tombol-close").on("click", function (event) {
+            modalAdd.removeClass("hidden");
+            modalAdd.addClass("flex");
+        });
+
+        $(".tombol-edit").on("click", function (event) {
+            modalEdit.removeClass("hidden");
+            modalEdit.addClass("flex");
+        });
+
+        $(".tombol-delete").on("click", function (event) {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Terhapus!',
+                        'Data berhasil dihapus.',
+                        'success'
+                    )
+                }
             });
         });
 
+        $(".tombol-simpan").on("click", async function (event) {
+            await Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data berhasil disimpan',
+                showConfirmButton: true, // Ensure the "OK" button is displayed
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Hide the modal when the user clicks "OK"
+                    modalAdd.removeClass("flex").addClass("hidden");
+                    modalEdit.removeClass("flex").addClass("hidden");
+                }
+            });
+        });
+
+        //window
+        $(window).on("click", function (event) {
+            if ($(event.target).is(modalAdd)) {
+                modalAdd.removeClass("flex").addClass("hidden");
+            }
+            if ($(event.target).is(modalEdit)) {
+                modalEdit.removeClass("flex").addClass("hidden");
+            }
+        });
     </script>
 </body>
 
