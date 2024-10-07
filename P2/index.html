@@ -129,10 +129,16 @@
     <!-- Modal (Hidden by default) -->
     <div id="modal-create" class="modal-overlay hidden">
         <div class="modal">
-            <h2>Tambah Mahasiswa</h2>
+            <h2 class="font-semibold">Tambah Mahasiswa</h2>
             <form>
-                <label for="name">Nama:</label>
-                <input type="text" id="name" name="name" class="input my-2" style="width: 95%;">
+                <div class="my-2">
+                    <label for="name">Nama:</label>
+                    <input type="text" id="name" name="name" class="input mt-1" style="width: 95%;">
+                </div>
+                <div class="my-2">
+                    <label for="nim">Nim:</label>
+                    <input type="text" id="nim" name="nim" class="input mt-1" style="width: 95%;">
+                </div>
                 <div class="button-modal-wrapper">
                     <button type="button" class="tombol-close btn-danger">Batal</button>
                     <button type="button" class="tombol-simpan ml-2 btn-primary">Simpan</button>
@@ -143,11 +149,17 @@
 
     <div id="modal-edit" class="modal-overlay hidden">
         <div class="modal">
-            <h2>Edit Mahasiswa</h2>
+            <h2 class="font-semibold">Edit Mahasiswa</h2>
             <form>
-                <label for="name">Nama:</label>
-                <input type="text" id="name" name="name" class="input my-2" style="width: 95%;">
-                <div class="button-modal-wrapper">
+                <div class="my-2">
+                    <label for="name">Nama:</label>
+                    <input type="text" id="name" name="name" class="input mt-1" style="width: 95%;">
+                </div>
+                <div class="my-2">
+                    <label for="nim">Nim:</label>
+                    <input type="text" id="nim" name="nim" class="input mt-1" style="width: 95%;">
+                </div>
+                <div class="button-modal-wrapper mt-4">
                     <button type="button" class="tombol-close btn-danger">Batal</button>
                     <button type="button" class="tombol-simpan ml-2 btn-primary">Simpan</button>
                 </div>
@@ -170,8 +182,10 @@
         });
 
         $(".tombol-close").on("click", function (event) {
-            modalAdd.removeClass("hidden");
-            modalAdd.addClass("flex");
+            modalAdd.removeClass("flex");
+            modalAdd.addClass("hidden");
+            modalEdit.removeClass("flex");
+            modalEdit.addClass("hidden");
         });
 
         $(".tombol-edit").on("click", function (event) {
