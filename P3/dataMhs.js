@@ -45,67 +45,116 @@ const dataMahasiswa = [
   },
 ];
 
-const listMhs = dataMahasiswa;
-console.log(listMhs);
+/**
+ * @author M Naufal Adrian Pratama Putra (NIM: A11.2022.14188)
+ * @description Tugas Praktikum 3 ES6
+ */
 
-const mahasiswa = dataMahasiswa[2];
-console.log(mahasiswa);
+// menyimpan dan menampilkan data mahasiswa pertama
+const mahasiswa1 = dataMahasiswa[0];
+// console.log(mahasiswa1);
 
-console.log(mahasiswa.nama);
+// 1. Destructuring seluruh field
+const {
+  id,
+  nama,
+  tanggalLahir,
+  fakultas,
+  programStudi,
+  semester,
+  nilai,
+  aktif,
+  organisasi,
+} = mahasiswa1;
+console.log(nama, fakultas, programStudi, nilai);
 
-// ini namanya destructuring object
-const { id, nama, tanggalLahir, fakultas, programStudi, organisasi, aktif } =
-  mahasiswa;
-console.log(id, nama, fakultas, programStudi);
+// 2. Destructuring field nilai
+const { algoritma, basisData, pemrogramanWeb } = nilai;
+console.log(algoritma, basisData, pemrogramanWeb);
 
-//ini kalau pakai spread operator
-const { ...sisanya } = mahasiswa;
-console.log(sisanya);
+// 3. Destructuring field organisasi
+const [organisasi1, organisasi2] = organisasi;
+console.log(organisasi1, organisasi2);
 
-const tambahanOrganisasi = ["doscom", "dncc", ...organisasi];
-console.table(tambahanOrganisasi);
+// 4. Spread operator untuk field organisasi
+const [...organisasiLain] = organisasi;
+console.log(organisasiLain);
 
-// cuma misah tanggal, bulan, tahun pakai split
-console.log(tanggalLahir.split("-")[2]);
-console.log(tanggalLahir.split("-")[1]);
-console.log(tanggalLahir.split("-")[0]);
+// 5. Update pada field fakultas dan field semester
+const updateMahasiswa1 = {
+  ...mahasiswa1,
+  fakultas: "Fakultas Ilmu Komputer",
+  semester: 14,
+};
+console.log(updateMahasiswa1);
 
-// ini namanya ternary operator
+//  6. Split pada field tanggal lahir dan tampilkan tahun saja
+const tahunLahir = tanggalLahir.split("-")[0];
+console.log(tahunLahir);
+
+// 7. Conditional (Ternary) operator '?'
 const statusAktif = aktif ? "Aktif" : "Tidak Aktif";
-const statusOrganisasi = organisasi.length > 0 && "Tidak ada organisasi";
+console.log(statusAktif);
 
-console.log(
-  `Atas Nama ${nama}, dari fakultas ${fakultas}, prodi ${programStudi}, statusnya ${statusAktif} ${statusOrganisasi}`
+// 8. Map tampilkan semua nama mahasiswa
+const namaMahasiswa = dataMahasiswa.map((mahasiswa) => mahasiswa.nama);
+console.log(namaMahasiswa);
+
+// 9. Filtering tampilkan semua mahasiswa yang aktif dan dari Fakultas Ilmu Komputer
+const mahasiswaAktifFIK = dataMahasiswa.filter(
+  (mahasiswa) =>
+    mahasiswa.aktif && mahasiswa.fakultas === "Fakultas Ilmu Komputer"
 );
+console.log(mahasiswaAktifFIK);
 
-// mengubah field organisasi
-const mahasiswaBaru = { ...mahasiswa, organisasi: ["test"] };
-console.log(mahasiswaBaru);
+// 10. Totalkan nilai seluruh mahasiswa
+const totalNilai = dataMahasiswa.reduce((total, mahasiswa) => {
+  const tot = Object.values(mahasiswa.nilai).reduce(
+    (totalNilai, nilai) => totalNilai + nilai
+  );
+  return total + tot;
+}, 0);
+console.log(totalNilai); // 672
 
-// filter
-const mahasiswaAktif = dataMahasiswa.filter((mhs) => mhs.aktif);
-console.log(mahasiswaAktif);
+// 11. Sort seluruh mahasiswa berdasarkan semester
+const sortSemester = dataMahasiswa.sort((a, b) => a.semester - b.semester);
+console.log(sortSemester);
 
-const listMhsTerbaru = {
+// 12. Menambahkan Mahasiswa Baru
+const mahasiswaBaru = {
   id: 4,
-  nama: "Budiiiiiiii",
-  tanggalLahir: "2004-03-17",
-  fakultas: "Fakultas Teknik",
+  nama: "M Naufal Adrian Pratama Putra",
+  tanggalLahir: "2004-09-06",
+  fakultas: "Fakultas Ilmu Komputer",
   programStudi: "Teknik Informatika",
-  semester: 6,
+  semester: 5,
   nilai: {
-    algoritma: 85,
-    basisData: 88,
+    algoritma: 78,
+    basisData: 85,
     pemrogramanWeb: 90,
   },
   aktif: true,
-  organisasi: ["Himpunan Mahasiswa Teknik", "Komunitas Pemrograman"],
+  organisasi: ["Dinus Open Source Community"],
 };
+const dataMahasiswaSetelahTambah = [...dataMahasiswa, mahasiswaBaru];
+console.log(dataMahasiswaSetelahTambah);
 
-const tambahMhs = [...dataMahasiswa, listMhsTerbaru];
-console.log(tambahMhs);
+// 13. Delete dan Update pada salah satu Mahasiswa
+// Update
+const updateMahasiswa = dataMahasiswa.map((mahasiswa) => {
+  // Update mahasiswa dengan id 3
+  if (mahasiswa.id === 3) {
+    return {
+      ...mahasiswa,
+      fakultas: "Fakultas Sastra Komputer",
+      semester: 11,
+    };
+  }
+  // Mahasiswa lainnya tidak diupdate
+  return mahasiswa;
+});
+console.log(updateMahasiswa);
 
-const sortedBySemester = dataMahasiswa
-  .slice()
-  .sort((a, b) => a.semester - b.semester);
-console.log(sortedBySemester);
+// Delete
+const deleteMahasiswa = dataMahasiswa.filter((mahasiswa) => mahasiswa.id !== 2);
+console.log(deleteMahasiswa);
